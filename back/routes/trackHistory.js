@@ -3,14 +3,20 @@ const TrackHistory = require('../models/TrackHistory');
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+const AuthorizationCheck = (req, res, next) => {
+    const token = req.get('Authorization');
+    if (!token) {
+        return res.status(401).send({error: 'Token not provided!'});
+    }
+    next();
+};
+
+router.post('/', AuthorizationCheck,  async (req, res) => {
     const token = req.get('Authorization');
 
-    if (!token) {
-        return res.status(401).send({error: 'no token present'})
-    }
+    const track = await TrackHistory.findOne();
 
-    const track = await TrackHistory.findOne({token});
+    console.log(track)
 
     if (!track) {
         return res.status(401).send({error: 'wrong token'})
