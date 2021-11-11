@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
-import AlbumCard from '../AlbumCard/AlbumCard'
+import ArtistCard from "../ArtistCard/ArtistCard";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchArtist} from "../../store/actions/Actions";
 import './Main.css'
+
 
 const Main = (props) => {
     const dispatch = useDispatch();
@@ -15,9 +16,8 @@ const Main = (props) => {
     const  printArtist = () => {
         if (artist) {
             return artist.map(artist => {
-                console.log(artist.file)
                 return (
-                    <AlbumCard
+                    <ArtistCard
                         key={artist._id}
                         file={artist.file}
                         title={artist.title}

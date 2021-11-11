@@ -1,8 +1,8 @@
 import React from 'react';
 import imageNotAvailable from '../../assets/images/not_available.png';
-import './AlbumCard.css';
+import './ArtistCard.css';
 
-const AlbumCard = (props) => {
+const ArtistCard = (props) => {
 
     const imgSrc = () => {
         if (props.file) {
@@ -13,7 +13,7 @@ const AlbumCard = (props) => {
     };
 
     const toExtendedNews = () => {
-        return props.history.push('/music/track_' + props.id)
+        return props.history.push('/music/album_' + props.id)
     };
 
     return (
@@ -24,8 +24,6 @@ const AlbumCard = (props) => {
                 </div>
                 <div className="card-container">
                     <p>{props.title}</p>
-                    <p>{props.release}</p>
-                    <p>count</p>
                     <div className="additional-info">
                         <div onClick={toExtendedNews} className="buttons-card">More >>></div>
                     </div>
@@ -35,4 +33,4 @@ const AlbumCard = (props) => {
     )
 };
 
-export default AlbumCard;
+export default ArtistCard;
