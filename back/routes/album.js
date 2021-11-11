@@ -6,21 +6,22 @@ const router = express.Router();
 const upload = require('./routesConfig');
 
 router.get('/', async (req, res) => {
-    try {
-        const query = {};
-        if (req.query.artist) {
-            query.artist = req.query.artist;
+        try {
+            const query = {};
+            if (req.query.artist) {
+                query.artist = req.query.artist;
+            }
+            const albums = await Album.find(query);
+            res.send(albums);
+        } catch (e) {
+            res.sendStatus(500);
         }
-        const Albums = await Album.find(query);
-        res.send(Albums);
-    } catch (e) {
-        res.sendStatus(500);
-    }
+    // }
 });
 
 router.get('/:id', async (req, res) => {
     try {
-        const Albums = await Album.findById(req.params.id);
+        const Albums = await Album.findById(req.params.id).populate("artist", "title information");
 
         if (Albums) {
             res.send(Albums);
@@ -28,6 +29,7 @@ router.get('/:id', async (req, res) => {
             res.sendStatus(404).send({error: 'Albums not found'})
         }
     } catch (e) {
+        console.log(e)
         res.sendStatus(500);
     }
 });

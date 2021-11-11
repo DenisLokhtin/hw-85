@@ -8,10 +8,15 @@ const TrackSchema = new Schema({
         required: true,
     },
     album: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Album',
         required: true,
     },
     duration: {
+        type: String,
+        required: true,
+    },
+    trackId: {
         type: String,
         required: true,
     },
