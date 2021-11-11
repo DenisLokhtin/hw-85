@@ -44,6 +44,7 @@ router.post('/', async (req, res) => {
         await tracks.save()
         res.send(tracks);
     } catch (e) {
+        console.log(e)
         res.sendStatus(400);
     }
 });

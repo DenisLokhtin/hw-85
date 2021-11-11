@@ -1,0 +1,25 @@
+.comment-send {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-send input {
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.expand-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.expand-nav h2 {
+    margin: 0px;
+}
+
+.expand-nav {
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+}
