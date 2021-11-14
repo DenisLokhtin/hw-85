@@ -11,7 +11,7 @@ const Main = (props) => {
 
     useEffect(() => {
         dispatch(fetchArtist())
-    }, [])
+    }, [dispatch])
 
     const  printArtist = () => {
         if (artist) {

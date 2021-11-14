@@ -12,7 +12,7 @@ const Albums = (props) => {
 
     useEffect(() => {
         dispatch(fetchAlbums());
-    }, []);
+    }, [dispatch]);
 
     const toMain = () => {
         return props.history.push('/')
