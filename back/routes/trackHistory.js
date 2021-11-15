@@ -12,11 +12,7 @@ const AuthorizationCheck = (req, res, next) => {
 };
 
 router.post('/', AuthorizationCheck,  async (req, res) => {
-    const token = req.get('Authorization');
-
     const track = await TrackHistory.findOne();
-
-    console.log(track)
 
     if (!track) {
         return res.status(401).send({error: 'wrong token'})

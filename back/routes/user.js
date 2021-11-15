@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
     const Username = await User.findOne({username: req.body.username});
 
     if (Username) {
-            return res.status(418).send({error: 'Such user already exists!'});
+        return res.status(418).send({error: 'Such user already exists!'});
     }
 
     const user = new User(body);
@@ -29,11 +29,6 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/sessions', async (req, res) => {
-    const token = req.get('Authorization')
-
-    if (!token) {
-        return res.status(401).send({error: 'No token present'})
-    }
 
     const user = await User.findOne({username: req.body.username});
 
@@ -47,9 +42,14 @@ router.post('/sessions', async (req, res) => {
         return res.status(400).send({error: 'password is wrong'})
     }
 
-    user.generateToken(10);
-    await user.save();
-    res.send({message: 'username and password correct', user})
+    try {
+        user.generateToken(10);
+        await user.save();
+        res.send({message: 'username and password correct', user})
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(400);
+    }
 });
 
 module.exports = router;

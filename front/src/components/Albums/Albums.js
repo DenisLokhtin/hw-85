@@ -8,8 +8,6 @@ const Albums = (props) => {
     const dispatch = useDispatch();
     const albums = useSelector(state => state.Albums);
 
-    // const id = ;
-
     useEffect(() => {
         dispatch(fetchAlbums());
     }, [dispatch]);
