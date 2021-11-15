@@ -16,4 +16,19 @@
 
 .header {
     margin-left: 15%;
+    margin-right: 15% ;
+    display: flex;
+    justify-content: space-between;
+}
+
+.authorization {
+    margin-top: 2.5%;
+}
+
+.authorization span {
+    margin-left: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
 }

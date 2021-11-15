@@ -11,6 +11,16 @@ const AuthorizationCheck = (req, res, next) => {
     next();
 };
 
+router.get('/', AuthorizationCheck, async (req, res) => {
+    try {
+        const Artists = await TrackHistory.find();
+        res.send(Artists);
+    } catch (e) {
+        res.sendStatus(500);
+    }
+});
+
+
 router.post('/', AuthorizationCheck,  async (req, res) => {
     const track = await TrackHistory.findOne();
 
