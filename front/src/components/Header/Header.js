@@ -1,21 +1,25 @@
 import React from 'react';
 import {withRouter} from "react-router-dom";
+import {useSelector} from "react-redux";
+import Anonymous from "../UI/Menu/Anonymous";
+import User from "../UI/Menu/User";
 
 const Header = (props) => {
-    const toLogin = () => {
-        return props.history.push('/login');
-    };
+    const user = useSelector(state => state.users.user);
 
-    const toRegister = () => {
-        return props.history.push('/register');
+    const toMain = () => {
+        return props.history.push('/');
     };
 
     return (
         <div className="header">
-            <h1>MUSIC</h1>
+            <h1 onClick={toMain}>MUSIC</h1>
             <div className="authorization">
-                <span onClick={toLogin}>Login</span>
-                <span>Register</span>
+                {user ? (
+                    <User user={user}/>
+                ) : (
+                    <Anonymous/>
+                )}
             </div>
         </div>
     );

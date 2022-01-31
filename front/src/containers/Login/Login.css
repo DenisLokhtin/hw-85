@@ -5,8 +5,8 @@
 .login form div {
     display: flex;
     flex-direction: column;
-    width: 200px;
-    margin-left: 42%;
+    width: 350px;
+    margin-left: 36%;
 }
 
 .login form input {

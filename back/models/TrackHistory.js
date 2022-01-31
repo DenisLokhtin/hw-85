@@ -1,23 +1,22 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
-
-const TrackHistorySchema = new Schema({
-    user: {
-        type: Schema.Types.ObjectId,
+const TrackHistorySchema = new mongoose.Schema({
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
+        required: true
     },
-    track: {
-        type: Schema.Types.ObjectId,
-        ref: 'Track',
-        required: true,
+    track_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tracks',
+        required: true
     },
     datetime: {
         type: Date,
-        required: true,
-    },
+        default: Date.now()
+    }
 });
 
 const TrackHistory = mongoose.model('TrackHistory', TrackHistorySchema);
+
 module.exports = TrackHistory;

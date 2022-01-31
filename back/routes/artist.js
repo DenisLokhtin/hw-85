@@ -15,9 +15,13 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', upload.single('file'), async (req, res) => {
+    if (!req.body.title || !req.body.information) {
+        res.status(400).send('Not valid data');
+    }
+
     const body = {
         title: req.body.title,
-        information: req.body.information,
+        information: req.body.information || null,
     };
 
     if (req.file) {
@@ -27,10 +31,10 @@ router.post('/', upload.single('file'), async (req, res) => {
     const artists = new Artist(body);
 
     try {
-        await artists.save()
+        await artists.save();
         res.send(artists);
     } catch (e) {
-        console.log(e)
+        console.log(e);
         res.sendStatus(400);
     }
 });

@@ -1,31 +1,44 @@
 const express = require('express');
 const TrackHistory = require('../models/TrackHistory');
+const User = require('../models/User');
+const Track = require('../models/Track');
 
 const router = express.Router();
 
-const AuthorizationCheck = (req, res, next) => {
-    const token = req.get('Authorization');
-    if (!token) {
-        return res.status(401).send({error: 'Token not provided!'});
-    }
-    next();
-};
-
-router.get('/', AuthorizationCheck, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const Artists = await TrackHistory.find();
-        res.send(Artists);
+        const tracks = await TrackHistory.find();
+        res.send(tracks);
     } catch (e) {
-        res.sendStatus(500);
+        res.status(401).send({error: 'Not Found'});
     }
 });
 
 
-router.post('/', AuthorizationCheck,  async (req, res) => {
-    const track = await TrackHistory.findOne();
+router.post('/', async (req, res) => {
+    try {
+        const token = req.get('Authorization');
 
-    if (!track) {
-        return res.status(401).send({error: 'wrong token'})
+        if (!token) {
+            return res.status(401).send({error: 'Unauthorized'});
+        }
+
+        const user = await User.findOne({token});
+
+        if (!user) {
+            return res.status(401).send({error: 'Wrong token'});
+        }
+
+        const track = await Track.findOne({_id: req.body.track});
+
+        const datetime = new Date().toISOString();
+
+        const trackHistory = new TrackHistory({user: user._id, track: track._id, datetime});
+        await trackHistory.save();
+
+        return res.send(trackHistory);
+    } catch (e) {
+        return res.send(e);
     }
 });
 

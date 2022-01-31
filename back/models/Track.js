@@ -8,15 +8,11 @@ const TrackSchema = new Schema({
         required: true,
     },
     album: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Album',
-        required: true,
+        required: true
     },
     duration: {
-        type: String,
-        required: true,
-    },
-    trackId: {
         type: String,
         required: true,
     },
