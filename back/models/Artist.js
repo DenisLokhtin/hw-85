@@ -1,19 +1,25 @@
+
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
 const ArtistSchema = new Schema({
-    title: {
+    name: {
         type: String,
         required: true,
     },
-    file: {
+    image: {
         type: String,
         required: false,
     },
-    information: {
-        type: String,
+    published: {
+        type: Boolean,
         required: true,
+        default: false,
+        enum: [true, false]
+    },
+    description: {
+        type: String,
     },
 });
 

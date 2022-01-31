@@ -8,13 +8,10 @@ const TrackHistorySchema = new mongoose.Schema({
     },
     track_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tracks',
+        ref: 'Track',
         required: true
     },
-    datetime: {
-        type: Date,
-        default: Date.now()
-    }
+    datetime: String
 });
 
 const TrackHistory = mongoose.model('TrackHistory', TrackHistorySchema);

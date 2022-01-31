@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const TrackSchema = new Schema({
-    title: {
+    name: {
         type: String,
         required: true,
     },
@@ -15,6 +15,16 @@ const TrackSchema = new Schema({
     duration: {
         type: String,
         required: true,
+    },
+    number: {
+        type: Number,
+        required: true,
+    },
+    published: {
+        type: Boolean,
+        required: true,
+        default: false,
+        enum: [true, false]
     },
 });
 

@@ -1,43 +1,35 @@
 const express = require('express');
 const TrackHistory = require('../models/TrackHistory');
-const User = require('../models/User');
 const Track = require('../models/Track');
+const auth = require('../middleWare/auth');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
-        const tracks = await TrackHistory.find();
+        const tracks = await TrackHistory.find().populate({path: 'User', select: 'username'}).populate({
+            path: 'track', select: 'name',
+            populate: {path: 'album', select: 'name', populate: {path: 'artist', select: 'name'}}
+        });
         res.send(tracks);
     } catch (e) {
-        res.status(401).send({error: 'Not Found'});
+        console.log(e);
+        res.status(404).send({error: 'Not Found'});
     }
 });
 
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     try {
-        const token = req.get('Authorization');
-
-        if (!token) {
-            return res.status(401).send({error: 'Unauthorized'});
-        }
-
-        const user = await User.findOne({token});
-
-        if (!user) {
-            return res.status(401).send({error: 'Wrong token'});
-        }
-
         const track = await Track.findOne({_id: req.body.track});
-
         const datetime = new Date().toISOString();
 
-        const trackHistory = new TrackHistory({user: user._id, track: track._id, datetime});
+        const trackHistory = new TrackHistory({user_id: req.user._id, track_id: track._id, datetime});
         await trackHistory.save();
 
         return res.send(trackHistory);
     } catch (e) {
+        console.log(e);
         return res.send(e);
     }
 });

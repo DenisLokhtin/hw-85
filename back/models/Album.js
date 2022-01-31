@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AlbumSchema = new Schema({
-    title: {
+    name: {
         type: String,
         required: true,
     },
@@ -13,8 +13,14 @@ const AlbumSchema = new Schema({
         required: true
     },
     release: {
-        type: Date,
+        type: String,
         required: true,
+    },
+    published: {
+        type: Boolean,
+        required: true,
+        default: false,
+        enum: [true, false]
     },
     file: {
         type: String,

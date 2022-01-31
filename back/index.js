@@ -1,31 +1,43 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const artist = require('./routes/artist');
-const track = require('./routes/track');
-const album = require('./routes/album');
-const user = require('./routes/user');
-const trackHistory = require('./routes/trackHistory');
+const artists = require('./routes/artist');
+const albums = require('./routes/album');
+const tracks = require('./routes/track');
+const users = require('./routes/user');
+const track_history = require('./routes/trackHistory');
+const bodyParser = require('body-parser');
+const config = require('./config');
+const exitHook = require('async-exit-hook');
+
 
 const app = express();
+
+app.use(bodyParser.json());
 app.use(cors());
-app.use(express.json());
-app.use('/public', express.static('public'));
+app.use(express.static('public'));
 
-const port = 8001;
+app.use('/artists', artists);
+app.use('/albums', albums);
+app.use('/tracks', tracks);
+app.use('/users', users);
+app.use('/track_history', track_history);
 
-app.use('/album', album);
-app.use('/track', track);
-app.use('/artist', artist);
-app.use('/user', user);
-app.use('/track_history', trackHistory);
+const port = 8002;
 
 
 const run = async () => {
-    await mongoose.connect('mongodb://localhost/music');
+    await mongoose.connect(config.db.url);
 
     app.listen(port, () => {
-        console.log(`Server started on ${port} port!`);
+        console.log(`Server started on ${port} port`);
+    });
+
+    exitHook(async (callback) => {
+        await mongoose.disconnect();
+        console.log('Mongoose disconnected');
+        callback();
     });
 };
 
